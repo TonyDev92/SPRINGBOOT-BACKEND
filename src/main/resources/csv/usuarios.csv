@@ -1,0 +1,3 @@
+Username,Email,PasswordHash,Status,CreatedAt,UpdatedAt
+JohnDoe,johndoe@example.com,1234,1,2025-11-26 11:40:03,2025-11-26 11:40:03
+JaneSmith,janedoe@example.com,1234,1,2025-11-26 11:40:03,2025-11-26 11:40:03
