@@ -52,6 +52,9 @@ public class SecurityConfig {
                 .permitAll()
             )
             // CSRF por defecto
+            .csrf(csrf -> csrf
+                    .ignoringRequestMatchers("/logout") // ignora CSRF solo para logout
+                )
             .csrf(Customizer.withDefaults());
         
     	/*http
