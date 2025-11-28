@@ -1,7 +1,8 @@
 package com.example.demo.config;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,7 +37,6 @@ public class Initialization implements InitializingBean {
     @Value("classpath:csv/peliculas.csv")
     private Resource peliculasCsv;
 
-    @Autowired
     public Initialization(UserRepositoryInitialazer initUser,
                           MoviesRepositoryInitializer initMovies,
                           BCryptPasswordEncoder passwordEncoder,
@@ -57,7 +57,7 @@ public class Initialization implements InitializingBean {
         List<UsuarioDTO> usuarios = csvReaderService.leerUsuarios(usuariosCsv);
         List<PeliculaDTO> peliculas = csvReaderService.leerPeliculas(peliculasCsv);
 
-        // Insertar usuarios sin duplicados
+        // Insert Users
         for (UsuarioDTO u : usuarios) {
             if (userRepository.existsByUsername(u.getUsername())) {
                 System.out.println("No se han introducido los siguientes datos de usuario: " + u.getUsername());
@@ -67,7 +67,7 @@ public class Initialization implements InitializingBean {
             }
         }
 
-        // Insertar películas sin duplicados
+        // Insert Movies
         for (PeliculaDTO p : peliculas) {
             if (moviesRepository.existsByTitulo(p.getTitulo())) {
                 System.out.println("No se han introducido los siguientes datos de película: " + p.getTitulo());

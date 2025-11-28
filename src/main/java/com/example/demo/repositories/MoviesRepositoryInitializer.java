@@ -5,14 +5,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entities.Movies;
+import com.example.demo.entities.MoviesEntity;
 
 import jakarta.transaction.Transactional;
 
 
 
 @Repository
-public interface MoviesRepositoryInitializer extends JpaRepository<Movies, Long>{
+public interface MoviesRepositoryInitializer extends JpaRepository<MoviesEntity, Long>{
 	
 	@Modifying
 	@Transactional

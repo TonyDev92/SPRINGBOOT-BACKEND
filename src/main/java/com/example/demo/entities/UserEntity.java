@@ -2,6 +2,7 @@ package com.example.demo.entities;
 
 import java.time.LocalDateTime;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import jakarta.persistence.UniqueConstraint;
 @Entity
 @Table(name = "Usuarios", uniqueConstraints = { @UniqueConstraint(columnNames = "Username"),
 		@UniqueConstraint(columnNames = "Email") })
-public class UserEntitie {
+public class UserEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

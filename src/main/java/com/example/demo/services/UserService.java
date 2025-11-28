@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entities.UserEntitie;
+import com.example.demo.entities.UserEntity;
 import com.example.demo.repositories.UserRepository;
 
 @Service
@@ -16,7 +16,6 @@ public class UserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
     
-    @Autowired
     public UserService(BCryptPasswordEncoder passwordEncoder) {
     	this.passwordEncoder = passwordEncoder;
     }
@@ -26,8 +25,8 @@ public class UserService {
     	return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
-    public UserEntitie createUser(String username, String email, String password) {
-        UserEntitie user = new UserEntitie();
+    public UserEntity createUser(String username, String email, String password) {
+        UserEntity user = new UserEntity();
         user.setUsername(username);
         user.setEmail(email);                   // obligatorio
         user.setPasswordHash(passwordEncoder.encode(password));

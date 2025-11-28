@@ -2,12 +2,13 @@ package com.example.demo.entities;
 
 import jakarta.persistence.*;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Peliculas")
-public class Movies {
+public class MoviesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,8 +43,8 @@ public class Movies {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    // ===== Constructores =====
-    public Movies() {}
+    // ===== Constructors =====
+    public MoviesEntity() {}
 
     // ===== Getters y setters =====
 
@@ -80,7 +81,7 @@ public class Movies {
     public LocalDateTime getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(LocalDateTime updatedAt) { this.updatedAt = updatedAt; }
 
-    // ===== Callbacks para timestamps =====
+    // ===== Callback for time stamps =====
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();

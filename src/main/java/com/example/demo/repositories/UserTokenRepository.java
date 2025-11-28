@@ -1,8 +1,7 @@
 package com.example.demo.repositories;
 
-import com.example.demo.entities.UserToken;
+import com.example.demo.entities.UserTokenEntity;
 
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import java.util.List;
 
@@ -12,9 +11,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserTokenRepository extends JpaRepository<UserToken, Long> {
+public interface UserTokenRepository extends JpaRepository<UserTokenEntity, Long> {
 
-    List<UserToken> findByIdUsuarioAndIsActive(Long idUsuario, Boolean isActive);
+    List<UserTokenEntity> findByIdUsuarioAndIsActive(Long idUsuario, Boolean isActive);
 
     // Elimina un token específico
     @Modifying

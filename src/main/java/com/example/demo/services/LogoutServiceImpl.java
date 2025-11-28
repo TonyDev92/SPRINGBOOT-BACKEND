@@ -12,9 +12,9 @@ public class LogoutServiceImpl implements LogoutService{
 	private UserTokenRepository tokenRepository;
 
 	@Override
-	public void logout(String session) {
+	public int logout(String session) {
 
-		tokenRepository.deleteBySessionId(session);
+		return tokenRepository.deleteBySessionId(session);
 
 	}
 

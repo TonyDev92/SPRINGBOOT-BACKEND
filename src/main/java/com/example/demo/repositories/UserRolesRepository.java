@@ -21,7 +21,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.entities.UserRoles;
+import com.example.demo.entities.UserRolesEntity;
 
 /**
  * Repositorio para acceder a la tabla UsuarioRoles.
@@ -31,7 +31,7 @@ import com.example.demo.entities.UserRoles;
  * Nota: si tu tabla tiene PK compuesta, adapta JpaRepository<UserRoles, CompositeIdClass>.
  */
 @Repository
-public interface UserRolesRepository extends JpaRepository<UserRoles, Long> {
+public interface UserRolesRepository extends JpaRepository<UserRolesEntity, Long> {
 
     /**
      * Obtiene todos los registros de roles para un usuario.
@@ -40,7 +40,7 @@ public interface UserRolesRepository extends JpaRepository<UserRoles, Long> {
      * @param idUsuario id del usuario (IdUsuario en la tabla)
      * @return lista de UserRoles (vacía si no hay roles)
      */
-    List<UserRoles> findByIdUsuario(Long idUsuario);
+    List<UserRolesEntity> findByIdUsuario(Long idUsuario);
 
     // Si prefieres otro nombre o la PK es compuesta, cámbialo según convenga.
 }

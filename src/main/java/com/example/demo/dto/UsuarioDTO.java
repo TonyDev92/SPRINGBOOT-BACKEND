@@ -1,6 +1,6 @@
 package com.example.demo.dto;
 
-import java.time.LocalDate;
+
 
 public class UsuarioDTO {
     private String username;

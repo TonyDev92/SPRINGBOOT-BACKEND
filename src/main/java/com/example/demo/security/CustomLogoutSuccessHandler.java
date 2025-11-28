@@ -8,7 +8,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import com.example.demo.repositories.UserTokenRepository;
+import com.example.demo.services.LogoutService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,7 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Autowired
-    private UserTokenRepository tokenRepository;
+    private LogoutService logoutService;
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request,
@@ -26,7 +26,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
         if(authentication != null) {
             String sessionId = ((WebAuthenticationDetails) authentication.getDetails()).getSessionId();
-            int deleted = tokenRepository.deleteBySessionId(sessionId);
+            int deleted = logoutService.logout(sessionId);
             System.out.println(">>> TOKENS BORRADOS: " + deleted);
         }
 

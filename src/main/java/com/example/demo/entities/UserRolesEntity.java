@@ -73,7 +73,7 @@ import java.time.LocalDateTime;
  */
 @Entity
 @Table(name = "UsuarioRoles")
-public class UserRoles {
+public class UserRolesEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -92,10 +92,10 @@ public class UserRoles {
     @Column(name = "Role", length = 400, columnDefinition = "nchar(400)")
     private String role;
 
-    public UserRoles() {
+    public UserRolesEntity() {
     }
 
-    public UserRoles(Long idUsuario, Integer idRol, LocalDateTime assignedAt, String role) {
+    public UserRolesEntity(Long idUsuario, Integer idRol, LocalDateTime assignedAt, String role) {
         this.idUsuario = idUsuario;
         this.idRol = idRol;
         this.assignedAt = assignedAt;

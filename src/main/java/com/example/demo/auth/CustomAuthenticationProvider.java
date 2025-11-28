@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,9 +16,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import com.example.demo.entities.UserEntitie;
-import com.example.demo.entities.UserRoles;
-import com.example.demo.entities.UserToken;
+import com.example.demo.entities.UserEntity;
+import com.example.demo.entities.UserRolesEntity;
+import com.example.demo.entities.UserTokenEntity;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.repositories.UserRolesRepository;
 import com.example.demo.repositories.UserTokenRepository;
@@ -30,7 +29,6 @@ import jakarta.servlet.http.HttpSession;
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private String name;
-    private String password;
     private String userToken;
     private List<GrantedAuthority> authorities;
 
@@ -38,11 +36,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final UserRolesRepository repositoryRole;
     private final UserTokenRepository tokenRepository;
 
-    private UserEntitie userResponse;
+    private UserEntity userResponse;
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
     public CustomAuthenticationProvider(UserRepository repository,
                                         UserRolesRepository repositoryRole,
                                         UserTokenRepository tokenRepository,
@@ -62,23 +59,23 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         if (login(authentication) && isRequestHeaderRefererAllowed(attr)) {
 
-            // 1) Generar token
+            // 1) GENERATE TOKEN
             this.userToken = UUID.randomUUID().toString();
             session.setAttribute("userToken", userToken);
 
-            // 2) Guardar token en la tabla UserTokens asociado a SessionId
+            // 2) SAVE TOKEN ON USER TOKEN TABLE
             saveUserToken(session);
 
             this.name = authentication.getName();
-            this.password = authentication.getCredentials().toString();
+            authentication.getCredentials().toString();
 
-            // 3) Cargar roles del usuario
+            // 3) LOAD USER ROLES
             authorities = new ArrayList<>();
             try {
                 if (userResponse != null && userResponse.getId() != null) {
-                    List<UserRoles> roles = repositoryRole.findByIdUsuario(userResponse.getId());
+                    List<UserRolesEntity> roles = repositoryRole.findByIdUsuario(userResponse.getId());
                     if (roles != null) {
-                        for (UserRoles ur : roles) {
+                        for (UserRolesEntity ur : roles) {
                             String roleRaw = ur.getRole();
                             if (roleRaw == null || roleRaw.isBlank()) continue;
 
@@ -91,7 +88,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
                     }
                 }
             } catch (Exception ex) {
-                // No interrumpimos login por fallo de roles
+            	System.out.println("Exception : " + ex.getMessage());
             }
 
             return new UsernamePasswordAuthenticationToken(name, null, authorities);
@@ -101,16 +98,16 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     /**
-     * Guarda el token generado en la tabla UserTokens, asociado a la sesión.
+     * SAVE THE TOKEN ON USER TOKENS
      */
     private void saveUserToken(HttpSession session) {
         if (userResponse == null || userResponse.getId() == null) return;
 
-        UserToken token = new UserToken();
+        UserTokenEntity token = new UserTokenEntity();
         token.setIdUsuario(userResponse.getId());
         token.setToken(this.userToken);
         token.setIsActive(true);
-        token.setSessionId(session.getId()); // Asociar token a sesión
+        token.setSessionId(session.getId()); // ASOCIATE TOKEN TO SESSION BY SESSION ID
         session.setAttribute("userId", userResponse.getId());
 
         tokenRepository.save(token);
@@ -139,7 +136,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     public void clearCredentials() {
         name = null;
-        password = null;
         userToken = null;
         if (authorities == null) {
             authorities = new ArrayList<>();
@@ -157,7 +153,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     /**
-     * Validación de headers (por simplicidad siempre true, se puede ampliar)
+     * HEADERS VALIDATION
      */
     public boolean isRequestHeaderRefererAllowed(ServletRequestAttributes attr) {
         return true;

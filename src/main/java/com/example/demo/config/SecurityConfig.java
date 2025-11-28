@@ -11,8 +11,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Configuration
 public class SecurityConfig {
 
@@ -23,31 +22,32 @@ public class SecurityConfig {
     }
     @Autowired
     private CustomLogoutSuccessHandler customLogoutSuccessHandler;
-    // AuthenticationManager personalizado
+
+    // Custom authentication manager
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authentication -> customAuthProvider.authenticate(authentication);
     }
 
-    // Configuración de seguridad
+    // SECURITY
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         	.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/private/**").hasAnyRole("USER", "ADMIN") // SOLO USER O ADMIN
+                .requestMatchers("/private/**").hasAnyRole("USER", "ADMIN") // USER && ADMIN ONLY
                 .requestMatchers("/**").permitAll()
             )
-            // Configuración del login
+            // LOGIN
             .formLogin(form -> form
-                .loginPage("/login")                 // GET /login muestra el formulario
-                .loginProcessingUrl("/login")        // POST /login procesa login
-                .defaultSuccessUrl("/private/home", true)    // redirige a /home tras login exitoso
-                .failureUrl("/login?error=true")     // redirige a /login con error
+                .loginPage("/login")                 
+                .loginProcessingUrl("/login")        
+                .defaultSuccessUrl("/private/home", true)  
+                .failureUrl("/login?error=true")     
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
             )
-            // Configuración del logout
+            // LOGOUT
              .logout(logout -> logout
                     .logoutUrl("/logout")
                     .logoutSuccessUrl("/auth?logout=true")
@@ -56,21 +56,9 @@ public class SecurityConfig {
                     .deleteCookies("JSESSIONID")
                     .permitAll()
                     )
-//             CSRF por defecto
-//            .csrf(csrf -> csrf
-//                    .ignoringRequestMatchers("/auth") // ignora CSRF solo para logout
-//                )
+
             .csrf(Customizer.withDefaults());
         
-    	/*http
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/private/**").hasRole("USER"))
-        .authorizeHttpRequests(auth -> auth.requestMatchers("/**").permitAll())
-        .formLogin(form -> form
-        		.loginPage("/login")
-        		.defaultSuccessUrl("/private/home", true)
-        		.permitAll())
-        .csrf(Customizer.withDefaults());*/
-
         return http.build();
     }
 }

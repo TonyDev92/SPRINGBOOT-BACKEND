@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 
-import com.example.demo.entities.UserEntitie;
+import com.example.demo.entities.UserEntity;
 
 import jakarta.transaction.Transactional;
 
 
 @Repository
-public interface UserRepositoryInitialazer extends JpaRepository<UserEntitie, Long> {
+public interface UserRepositoryInitialazer extends JpaRepository<UserEntity, Long> {
 	@Modifying
 	@Transactional
 	@Query(value = "INSERT INTO Usuarios (Username, Email, PasswordHash, Status) "
