@@ -3,9 +3,8 @@ package com.example.demo.services;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dto.UsuarioDTO;
-import com.example.demo.dto.PeliculaDTO;
-
+import com.example.demo.app.aplication.infrastructure.common.PeliculaDTO;
+import com.example.demo.app.aplication.infrastructure.common.UsuarioDTO;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
@@ -22,8 +21,8 @@ import java.util.Locale;
 @Service
 public class csvService {
 
-    public List<UsuarioDTO> leerUsuarios(Resource usuariosCsv) throws Exception {
-        List<UsuarioDTO> usuarios = new ArrayList<>();
+    public List<UsuarioDTO> readUsers(Resource usuariosCsv) throws Exception {
+        List<UsuarioDTO> users = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(
                 new InputStreamReader(usuariosCsv.getInputStream(), StandardCharsets.UTF_8))) {
@@ -39,15 +38,15 @@ public class csvService {
                 String password = data[2].trim();
                 Integer status = Integer.parseInt(data[3].trim());
 
-                usuarios.add(new UsuarioDTO(username, email, password, status));
+                users.add(new UsuarioDTO(username, email, password, status));
             }
         }
 
-        return usuarios;
+        return users;
     }
 
-    public List<PeliculaDTO> leerPeliculas(Resource peliculasCsv) throws Exception {
-        List<PeliculaDTO> peliculas = new ArrayList<>();
+    public List<PeliculaDTO> readMovies(Resource peliculasCsv) throws Exception {
+        List<PeliculaDTO> movies = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US);
 
         try (BufferedReader br = new BufferedReader(
@@ -70,11 +69,11 @@ public class csvService {
 
                 byte[] imagenBytes = imagenBase64.isEmpty() ? null : Base64.getDecoder().decode(imagenBase64);
 
-                peliculas.add(new PeliculaDTO(titulo, descripcion, reparto, imagenBytes,
+                movies.add(new PeliculaDTO(titulo, descripcion, reparto, imagenBytes,
                         nombreImagen, genero, fechaEstreno, duracion));
             }
         }
 
-        return peliculas;
+        return movies;
     }
 }

@@ -3,7 +3,8 @@ package com.example.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import com.example.demo.repositories.UserTokenRepository;
+
+import com.example.demo.app.infrastructure.adapters.output.persistence.repository.UserTokenRepository;
 
 @Service
 public class LogoutServiceImpl implements LogoutService{
