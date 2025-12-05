@@ -80,7 +80,7 @@ class CustomAuthenticationProviderTest {
     void testAuthenticateSuccess() {
         HttpSession session = setupRequestContext();
 
-        // 1️⃣ Preparar usuario válido
+        // 1️ Preparar usuario válido
         UserEntity user = new UserEntity();
         user.setId(1L);
         user.setEmail("user@test.com");
@@ -90,28 +90,28 @@ class CustomAuthenticationProviderTest {
         when(userRepository.findByEmail("user@test.com")).thenReturn(Optional.of(user));
         when(userAplicationService.checkPassword("password", "hashedPassword")).thenReturn(true);
 
-        // 2️⃣ Mock roles
+        // 2️ Mock roles
         UserRolesEntity role = new UserRolesEntity();
         role.setIdUsuario(1L);
         role.setRole("ADMIN");
         when(userRolesRepository.findByIdUsuario(1L)).thenReturn(List.of(role));
 
-        // 3️⃣ Ejecutar authenticate
+        // 3️ Ejecutar authenticate
         UsernamePasswordAuthenticationToken authToken =
                 new UsernamePasswordAuthenticationToken("user@test.com", "password");
 
         UsernamePasswordAuthenticationToken result =
                 (UsernamePasswordAuthenticationToken) authProvider.authenticate(authToken);
 
-        // 4️⃣ Verificar token generado
+        // 4️ Verificar token generado
         assertNotNull(authProvider.getUserToken(), "El token no debe ser nulo");
 
-        // 5️⃣ Verificar saveUserToken y session.setAttribute
+        // 5️ Verificar saveUserToken y session.setAttribute
         verify(tokenRepository, times(1)).save(any());
         verify(session, times(1)).setAttribute("userToken", authProvider.getUserToken());
         verify(session, times(1)).setAttribute("userId", 1L);
 
-        // 6️⃣ Verificar roles cargados
+        // 6️ Verificar roles cargados
         assertEquals(1, result.getAuthorities().size());
         assertTrue(result.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN")));
 

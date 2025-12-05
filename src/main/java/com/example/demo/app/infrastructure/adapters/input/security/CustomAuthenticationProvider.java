@@ -36,6 +36,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private String name;
     private String userToken;
     private List<GrantedAuthority> authorities;
+    
     @Autowired
     private UserAplicationService userAplicationService;
     

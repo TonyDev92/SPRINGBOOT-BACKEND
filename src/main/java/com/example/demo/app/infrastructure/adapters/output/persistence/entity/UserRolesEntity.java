@@ -1,64 +1,3 @@
-//package com.example.demo.entities;
-//
-//import jakarta.persistence.*;
-//import java.time.LocalDateTime;
-//
-//@Entity
-//@Table(name = "UsuarioRoles")
-//public class UserRoles {
-//
-//    @Id
-//    @Column(name = "IdUsuario")
-//    private Long userId; // misma PK que la tabla
-//
-//    @OneToOne(fetch = FetchType.LAZY)
-//    @MapsId
-//    @JoinColumn(name = "IdUsuario", nullable = false)
-//    private UserEntitie user;
-//
-//    @Column(name = "AssignedAt", nullable = false)
-//    private LocalDateTime assignedAt;
-//
-//    @Column(name = "Admin", nullable = false)
-//    private Boolean admin;
-//
-//    @Column(name = "User", nullable = false)
-//    private Boolean userRole; // 'User' es palabra reservada en Java, usamos userRole
-//
-//    @Column(name = "Guest", nullable = false)
-//    private Boolean guest;
-//
-//    @Column(name = "Moderator", nullable = false)
-//    private Boolean moderator;
-//
-//    @PrePersist
-//    protected void onCreate() {
-//        this.assignedAt = LocalDateTime.now();
-//    }
-//
-////     Getters y setters
-//
-//    public Long getUserId() { return userId; }
-//    public void setUserId(Long userId) { this.userId = userId; }
-//
-//    public UserEntitie getUser() { return user; }
-//    public void setUser(UserEntitie user) { this.user = user; }
-//
-//    public LocalDateTime getAssignedAt() { return assignedAt; }
-//    public void setAssignedAt(LocalDateTime assignedAt) { this.assignedAt = assignedAt; }
-//
-//    public Boolean getAdmin() { return admin; }
-//    public void setAdmin(Boolean admin) { this.admin = admin; }
-//
-//    public Boolean getUserRole() { return userRole; }
-//    public void setUserRole(Boolean userRole) { this.userRole = userRole; }
-//
-//    public Boolean getGuest() { return guest; }
-//    public void setGuest(Boolean guest) { this.guest = guest; }
-//
-//    public Boolean getModerator() { return moderator; }
-//    public void setModerator(Boolean moderator) { this.moderator = moderator; }
-//}
 package com.example.demo.app.infrastructure.adapters.output.persistence.entity;
 
 import jakarta.persistence.*;
@@ -84,7 +23,7 @@ public class UserRolesEntity {
     private Long idUsuario;
 
     @Column(name = "IdRol", nullable = false)
-    private Integer idRol;
+    private Long idRol;
 
     @Column(name = "AssignedAt", columnDefinition = "datetime2", nullable = false)
     private LocalDateTime assignedAt;
@@ -95,7 +34,7 @@ public class UserRolesEntity {
     public UserRolesEntity() {
     }
 
-    public UserRolesEntity(Long idUsuario, Integer idRol, LocalDateTime assignedAt, String role) {
+    public UserRolesEntity(Long idUsuario, Long idRol, LocalDateTime assignedAt, String role) {
         this.idUsuario = idUsuario;
         this.idRol = idRol;
         this.assignedAt = assignedAt;
@@ -110,11 +49,11 @@ public class UserRolesEntity {
         this.idUsuario = idUsuario;
     }
 
-    public Integer getIdRol() {
+    public Long getIdRol() {
         return idRol;
     }
 
-    public void setIdRol(Integer idRol) {
+    public void setIdRol(Long idRol) {
         this.idRol = idRol;
     }
 

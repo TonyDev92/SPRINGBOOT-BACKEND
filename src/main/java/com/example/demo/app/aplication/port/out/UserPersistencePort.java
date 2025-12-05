@@ -1,6 +1,9 @@
 package com.example.demo.app.aplication.port.out;
 
 import com.example.demo.app.domain.model.User;
+import com.example.demo.app.domain.model.UserRole;
+
+
 
 public interface UserPersistencePort {
 	/*
@@ -9,5 +12,7 @@ public interface UserPersistencePort {
 	 * 
 	 */
     User save(User user);
+    
+	void saveUserRole(UserRole userRole);
     
 }
