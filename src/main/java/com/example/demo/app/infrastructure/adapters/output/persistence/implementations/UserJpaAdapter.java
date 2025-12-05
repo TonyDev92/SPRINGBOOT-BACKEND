@@ -37,13 +37,10 @@ public class UserJpaAdapter implements UserPersistencePort {
     @Override
     public User save(User user) {
 
-        // dominio → entidad
         UserEntity entity = userMapper.toEntity(user);
 
-        // guardar en JPA
         UserEntity savedEntity = userRepository.save(entity);
 
-        // entidad → dominio
         return userMapper.toDomain(savedEntity);
     }
     
